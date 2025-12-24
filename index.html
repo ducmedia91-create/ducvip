@@ -1,0 +1,138 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>FinAssistant - Trợ Lý Tài Chính & Bán Hàng</title>
+  
+  <!-- PWA Settings -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#4f46e5">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="FinAssistant">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      /* Default Theme (Indigo) */
+      --theme-color-50: #eef2ff;
+      --theme-color-100: #e0e7ff;
+      --theme-color-200: #c7d2fe;
+      --theme-color-300: #a5b4fc;
+      --theme-color-400: #818cf8;
+      --theme-color-500: #6366f1;
+      --theme-color-600: #4f46e5;
+      --theme-color-700: #4338ca;
+      --theme-color-800: #3730a3;
+      --theme-color-900: #312e81;
+      --theme-color-950: #1e1b4b;
+    }
+
+    body { 
+      font-family: 'Plus Jakarta Sans', sans-serif; 
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overscroll-behavior-y: none;
+    }
+    
+    .bg-grid-pattern {
+      background-color: #f8fafc;
+      background-image: radial-gradient(#e2e8f0 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+    /* Loading Spinner Styling */
+    .app-loading {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: #0f172a;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease-out;
+    }
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 4px solid rgba(255,255,255,0.1);
+      border-left-color: #6366f1;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 20px;
+    }
+    .loading-text {
+      color: #94a3b8;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      animation: pulse 2s infinite;
+    }
+    @keyframes spin { 100% { transform: rotate(360deg); } }
+    @keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+
+    @media print {
+      @page { margin: 0; size: auto; }
+      body * { visibility: hidden; height: 0; overflow: hidden; }
+      #printable-area, #printable-area * { visibility: visible; height: auto; overflow: visible; }
+      #printable-area { 
+        display: block !important; position: absolute; left: 0; top: 0; width: 100%; 
+        padding: 0; background: white; color: black; z-index: 9999;
+        font-family: 'Inconsolata', monospace; font-size: 14px; line-height: 1.4;
+      }
+      .receipt-header { text-align: center; margin-bottom: 10px; }
+      .receipt-title { font-size: 24px; font-weight: 900; text-transform: uppercase; margin-bottom: 4px; }
+      .receipt-info { font-size: 12px; margin-bottom: 2px; }
+      .receipt-divider { border-bottom: 1px dashed #000; margin: 8px 0; }
+      .receipt-bold { font-weight: 700; }
+      .receipt-large { font-size: 18px; font-weight: 700; }
+      .receipt-table { width: 100%; border-collapse: collapse; margin-bottom: 8px; }
+      .receipt-table th { text-align: left; border-bottom: 1px solid #000; font-size: 12px; padding-bottom: 4px; }
+      .receipt-table td { padding-top: 4px; vertical-align: top; }
+      .receipt-footer { text-align: center; margin-top: 16px; font-size: 12px; }
+      .no-print { display: none !important; }
+    }
+  </style>
+<script type="importmap">
+{
+  "imports": {
+    "rxjs": "https://esm.sh/rxjs@^7.8.2?conditions=es2015",
+    "rxjs/operators": "https://esm.sh/rxjs@^7.8.2/operators?conditions=es2015",
+    "rxjs/ajax": "https://esm.sh/rxjs@^7.8.2/ajax?conditions=es2015",
+    "rxjs/webSocket": "https://esm.sh/rxjs@^7.8.2/webSocket?conditions=es2015",
+    "rxjs/testing": "https://esm.sh/rxjs@^7.8.2/testing?conditions=es2015",
+    "rxjs/fetch": "https://esm.sh/rxjs@^7.8.2/fetch?conditions=es2015",
+    "@angular/service-worker": "https://esm.sh/@angular/service-worker@^21.0.6?external=rxjs",
+    "@angular/forms": "https://esm.sh/@angular/forms@^21.0.6?external=rxjs",
+    "vite": "https://esm.sh/vite@^7.3.0?external=rxjs",
+    "@angular/platform-browser": "https://esm.sh/@angular/platform-browser@^21.0.6?external=rxjs",
+    "@angular/common": "https://esm.sh/@angular/common@^21.0.6?external=rxjs",
+    "@angular/router": "https://esm.sh/@angular/router@^21.0.6?external=rxjs",
+    "@angular/core": "https://esm.sh/@angular/core@^21.0.6?external=rxjs",
+    "@angular/compiler": "https://esm.sh/@angular/compiler@^21.0.6?external=rxjs",
+    "@analogjs/vite-plugin-angular": "https://esm.sh/@analogjs/vite-plugin-angular@^2.2.0?external=rxjs"
+  }
+}
+</script>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-[--theme-color-100] selection:text-[--theme-color-700]">
+  <app-root>
+    <div class="app-loading">
+      <div class="spinner"></div>
+      <div class="loading-text">FINASSISTANT ĐANG TẢI...</div>
+    </div>
+  </app-root>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
