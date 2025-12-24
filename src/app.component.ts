@@ -1,7 +1,5 @@
-
 import { Component, inject, signal, ChangeDetectionStrategy, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { DataService } from './services/data.service';
 import { DashboardComponent } from './components/dashboard.component';
@@ -18,7 +16,6 @@ import { CrmComponent } from './components/crm.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule, 
-    RouterOutlet, 
     FormsModule,
     DashboardComponent,
     ProductsComponent,
