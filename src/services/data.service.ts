@@ -55,12 +55,6 @@ export interface Transaction {
   refId?: string; 
 }
 
-export interface SecurityConfig {
-  enabled: boolean;
-  username: string;
-  pin: string;
-}
-
 export interface ShopConfig {
   shopName: string;
   address: string;
@@ -78,15 +72,6 @@ export interface GithubConfig {
   owner: string;
   repo: string;
   path: string;
-  lastSync?: string;
-}
-
-export interface ServerConfig {
-  enabled: boolean;
-  apiUrl: string;
-  username?: string; 
-  accessToken?: string; 
-  autoSync: boolean;
   lastSync?: string;
 }
 
@@ -125,7 +110,6 @@ export class DataService {
   // GLOBAL CART STATE
   cart = signal<OrderItem[]>([]);
   
-  security = signal<SecurityConfig>({ enabled: false, username: 'Admin', pin: '' });
   shopConfig = signal<ShopConfig>({
     shopName: 'Cửa Hàng Của Tôi',
     address: '123 Đường ABC, Quận XYZ',
@@ -136,7 +120,7 @@ export class DataService {
     qrCodeImage: '',
     themeId: 'indigo'
   });
-  serverConfig = signal<ServerConfig>({ enabled: false, apiUrl: '', autoSync: false });
+  
   githubConfig = signal<GithubConfig>({ enabled: false, token: '', owner: '', repo: '', path: 'fin_assistant_data.json' });
 
   private fileHandle: any = null;
@@ -176,7 +160,6 @@ export class DataService {
       if (event.key === 'pitc_customers' && event.newValue) this.customers.set(JSON.parse(event.newValue));
       if (event.key === 'pitc_orders' && event.newValue) this.orders.set(JSON.parse(event.newValue));
       if (event.key === 'pitc_transactions' && event.newValue) this.transactions.set(JSON.parse(event.newValue));
-      if (event.key === 'pitc_security' && event.newValue) this.security.set(JSON.parse(event.newValue));
       if (event.key === 'pitc_shop' && event.newValue) this.shopConfig.set(JSON.parse(event.newValue));
       if (event.key === 'pitc_github' && event.newValue) this.githubConfig.set(JSON.parse(event.newValue));
     });
@@ -229,9 +212,7 @@ export class DataService {
     localStorage.setItem('pitc_customers', JSON.stringify(this.customers())); 
     localStorage.setItem('pitc_orders', JSON.stringify(this.orders()));
     localStorage.setItem('pitc_transactions', JSON.stringify(this.transactions()));
-    localStorage.setItem('pitc_security', JSON.stringify(this.security()));
     localStorage.setItem('pitc_shop', JSON.stringify(this.shopConfig()));
-    localStorage.setItem('pitc_server', JSON.stringify(this.serverConfig()));
     localStorage.setItem('pitc_github', JSON.stringify(this.githubConfig()));
   }
 
@@ -378,8 +359,6 @@ export class DataService {
       if (data.orders) this.orders.set(data.orders);
       if (data.transactions) this.transactions.set(data.transactions);
       if (data.shop) this.shopConfig.set(data.shop);
-      if (data.security) this.security.set(data.security);
-      if (data.server) this.serverConfig.set(data.server);
       this.saveToLocalStorage();
     } catch (e) { alert('File lỗi!'); }
   }
@@ -399,8 +378,6 @@ export class DataService {
       orders: this.orders(),
       transactions: this.transactions(),
       shop: this.shopConfig(),
-      security: this.security(),
-      server: this.serverConfig(),
       lastModified: new Date().toISOString()
     };
     try {
@@ -416,9 +393,7 @@ export class DataService {
     const customers = localStorage.getItem('pitc_customers');
     const orders = localStorage.getItem('pitc_orders');
     const transactions = localStorage.getItem('pitc_transactions');
-    const security = localStorage.getItem('pitc_security');
     const shop = localStorage.getItem('pitc_shop');
-    const server = localStorage.getItem('pitc_server');
     const github = localStorage.getItem('pitc_github');
 
     if (products) this.products.set(JSON.parse(products));
@@ -429,9 +404,7 @@ export class DataService {
 
     if (orders) this.orders.set(JSON.parse(orders));
     if (transactions) this.transactions.set(JSON.parse(transactions));
-    if (security) this.security.set(JSON.parse(security));
     if (shop) this.shopConfig.set(JSON.parse(shop));
-    if (server) this.serverConfig.set(JSON.parse(server));
     if (github) this.githubConfig.set(JSON.parse(github));
   }
 
@@ -566,6 +539,5 @@ export class DataService {
   }
   deleteTransaction(id: string) { this.transactions.update(prev => prev.filter(t => t.id !== id)); }
 
-  updateSecurity(config: SecurityConfig) { this.security.set(config); }
   updateShopConfig(config: ShopConfig) { this.shopConfig.set(config); }
 }

@@ -1,3 +1,4 @@
+
 import { Component, inject, signal, ChangeDetectionStrategy, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -62,9 +63,9 @@ import { CrmComponent } from './components/crm.component';
           </div>
           <div class="hidden lg:block">
             <h1 class="font-extrabold text-lg leading-tight tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white to-[--theme-color-200]">
-              Trợ Lý<br>Tài Chính
+              FinAssistant
             </h1>
-            <p class="text-[10px] text-[--theme-color-300] font-bold tracking-widest uppercase mt-1">Phiên bản cá nhân</p>
+            <p class="text-[10px] text-[--theme-color-300] font-bold tracking-widest uppercase mt-1">Trợ lý Tài Chính</p>
           </div>
         </div>
         
@@ -131,9 +132,12 @@ import { CrmComponent } from './components/crm.component';
 
         <!-- Status -->
         <div class="p-4 bg-black/20 backdrop-blur-md border-t border-white/5">
-           <div class="px-2 flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider" [class]="isOnline() ? 'text-emerald-400' : 'text-red-400'">
-             <span class="w-2 h-2 rounded-full shadow-[0_0_8px_currentColor]" [class]="isOnline() ? 'bg-emerald-400 animate-pulse' : 'bg-red-500'"></span>
-             {{ isOnline() ? 'SẴN SÀNG' : 'OFFLINE MODE' }}
+           <div class="px-2 flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider" [class]="isOnline() ? 'text-emerald-400' : 'text-slate-400'">
+             <span class="w-2 h-2 rounded-full shadow-[0_0_8px_currentColor]" [class]="isOnline() ? 'bg-emerald-400 animate-pulse' : 'bg-slate-500'"></span>
+             {{ isOnline() ? 'SẴN SÀNG' : 'OFFLINE' }}
+           </div>
+           <div class="px-2 mt-1 text-[9px] text-slate-500 italic">
+             Không cần tài khoản
            </div>
         </div>
       </aside>

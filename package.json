@@ -1,4 +1,3 @@
-
 {
   "name": "fin-assistant-pro",
   "version": "1.0.0",
@@ -25,7 +24,7 @@
   "devDependencies": {
     "@angular/cli": "^18.0.0",
     "@angular/compiler-cli": "^18.0.0",
-    "@analogjs/vite-plugin-angular": "^4.2.0",
+    "@analogjs/vite-plugin-angular": "^1.6.0",
     "typescript": "~5.4.0",
     "vite": "^5.2.0"
   }

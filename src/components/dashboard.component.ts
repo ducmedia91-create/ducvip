@@ -13,8 +13,8 @@ import { DataService } from '../services/data.service';
     <div class="p-8 space-y-8 animate-fade-in max-w-7xl mx-auto">
       <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div>
-          <h2 class="text-3xl font-extrabold text-slate-800 tracking-tight">Tổng Quan Kinh Doanh</h2>
-          <p class="text-slate-500 font-medium mt-1">Hệ thống trợ lý tài chính thông minh</p>
+          <h2 class="text-3xl font-extrabold text-slate-800 tracking-tight">Trợ Lý Tài Chính Cá Nhân</h2>
+          <p class="text-slate-500 font-medium mt-1">Dữ liệu an toàn • Không cần tài khoản • Hoạt động Offline</p>
         </div>
         <div class="text-sm bg-white/80 backdrop-blur border border-[--theme-color-100] text-[--theme-color-700] px-4 py-2 rounded-full font-bold shadow-sm flex items-center gap-2">
           <span>📅</span> {{ today | date:'fullDate' }}
@@ -29,7 +29,7 @@ import { DataService } from '../services/data.service';
           <div class="flex items-center justify-between mb-4">
             <div class="flex items-center gap-3">
                <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-xl backdrop-blur-sm animate-pulse">✨</div>
-               <h3 class="font-bold text-lg">Trợ Lý Phân Tích & Ra Lệnh</h3>
+               <h3 class="font-bold text-lg">FinAssistant - Trợ Lý Ảo Của Bạn</h3>
             </div>
           </div>
 
@@ -272,7 +272,7 @@ export class DashboardComponent {
 
     if (count === 0) {
       if (lowStock > 3) return `${greeting}! Kho đang báo động ${lowStock} món sắp hết. Gõ "Nhập hàng" để xử lý ngay.`;
-      return `${greeting}! Tôi đang chờ lệnh từ bạn. Thử gõ "Bán 1 cafe" xem sao?`;
+      return `${greeting}! Tôi là FinAssistant, trợ lý của bạn. Bạn không cần đăng nhập, mọi dữ liệu được lưu tại máy. Gõ "Bán 1 cafe" để thử.`;
     }
     return `${greeting}! Đã chốt ${count} đơn, doanh thu ${new Intl.NumberFormat('vi-VN').format(rev)} đ.`;
   });
